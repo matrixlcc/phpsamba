@@ -1,0 +1,9 @@
+UUID=e55d3f5c-f4fd-11eb-83a9-001558d84c88 / ext4 defaults 0 0
+/swap.img	none	swap	sw	0	0
+
+/dev/sdb1 /media/HD_01 ntfs
+auto,rw,exec,users,dmask=000,fmask=111,nls=utf8 0 0
+
+/dev/sda1 /media/pasta_teste ntfs
+auto,rw,exec,users,dmask=000,fmask=111,nls=utf8 0 0
+
