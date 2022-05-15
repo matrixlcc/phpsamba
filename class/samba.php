@@ -2,6 +2,7 @@
 
 class samba extends diretorio{
 
+  public $local="/opt/lampp/htdocs/montahd";
   public $doc_samba=[];
   public $doc_inicio=[];
 
@@ -44,23 +45,26 @@ class samba extends diretorio{
 
     //echo "\n".$v;
     $v=preg_replace('/\s/','',$v);
+    //$v=str_replace("^M",'',$v);
     $v=str_replace('<>',' ',$v);
     return $v;
   }//metodo
 
   public function abre_doc(){
-    echo $v= shell_exec("sudo cat /etc/samba/smb.conf");
+    $this->doc_samba=[];
+    $this->doc_inicio=[];
+    $v= shell_exec("sudo cat /etc/samba/smb.conf");
 
     $v=explode("\n",$v);
     $tot=count($v);
     $cont_pasta=-1;
     for($x=0;$x<$tot;$x++){
-      //echo "\nlinha:".$v[$x];
+      //echo "\nlinha:".$x;
       if( $this->verificador($v[$x],['[',']']) ){
         //echo 'pasta';
         $con=str_replace(['[',']'],['',''],$v[$x]);
         $cont_pasta++;
-        $this->doc_samba[$cont_pasta]['nome_smb']=$con;
+        $this->doc_samba[$cont_pasta]['nome_smb']=$this->trata_conteudo($con);
       }else if( $this->verificador($v[$x],['=']) && $cont_pasta>=0 ){
         //dados pasta
         //echo 'conteudo';
@@ -68,6 +72,8 @@ class samba extends diretorio{
 
         $v0=$this->trata_conteudo($con[0]);
         $v1=$this->trata_conteudo($con[1]);
+
+        //echo $v0.'='.$v1;
 
         $this->doc_samba[$cont_pasta]['val'][]=[ $v0, $v1 ];
         $this->doc_samba[$cont_pasta][$v0]=$v1;
@@ -83,12 +89,13 @@ class samba extends diretorio{
     $this->doc_inicio=array_values(array_filter($this->doc_inicio));
     //$this->doc_inicio;
     //$this->doc_samba);
+    //echo "\nfim metodo";
   }//metodo
 
   public function procura_samba($dir){
-    $this->abre_doc();
+    //$this->abre_doc();
     $v=$this->doc_samba;
-    print_r($v);
+    //print_r($v);
     for($x=0;$x<count($v);$x++){
       //$c=$v[$x]['val'];
       //for($y=0;$y<count($c);$y++){
@@ -97,9 +104,9 @@ class samba extends diretorio{
       //}//for
       //echo "\n(".$dir."-".$v[$x]['path'].")";
 
-      if($v[$x]['path']==$dir){
+      if(@$v[$x]['path']==$dir){
         //echo "\n(".$dir."-".$v[$x]['path'].")";
-        return $v[$x];
+        return [$x,$v[$x]];
       }//if
 
     }//for
@@ -107,23 +114,31 @@ class samba extends diretorio{
   }//metodo
 
   public function gera_arquivo(){
-    $smb=$this->doc_samba();
-    $ini=$this->doc_inicio();
+    $smb=$this->doc_samba;
+    $ini=$this->doc_inicio;
     $inicio=implode("\n",$ini);
 
     $corpo='';
     $tot=count($smb);
     for($x=0;$x<$tot;$x++){
-      $corpo=$corpo."\n[".$smb[$x]['nome_smb']."]";
+      $corpo=$corpo."\n[".$smb[$x]['nome_smb'].']';
       //$corpo=$corpo.implode("\n",$smb[$x]['val']);
-      for($y=0;$y<count($smb[$x]);$y++){
-        
+      for($y=0;$y<@count($smb[$x]['val']);$y++){
+        $corpo=$corpo."\n".implode(" = ",$smb[$x]['val'][$y]);
       }//for
+      $corpo=$corpo."\n";
     }//for
 
+    //echo $corpo;
+    $fp = fopen("temp/temp_samba.txt","w");
+    fwrite($fp,$corpo);
+    fclose($fp);
+
+    shell_exec('cd '.$this->local.'/script&&sudo bash ./script_samba.sh');
   }//metodo
 
   public function adiciona_samba(){
+    $this->abre_doc();
     $v=$this->novo_smb;
     $tot=count($v);
     $tot_samba=count($this->doc_samba);
@@ -136,7 +151,44 @@ class samba extends diretorio{
       }
 
     }//for
+    //print_r($this->doc_samba);
+    $this->gera_arquivo();
   }//metodo
+
+  public function remove_samba($dir){
+    $this->abre_doc();
+    //print_r($this->doc_samba);
+    $dao=$this->procura_samba($dir);
+    //print_r($dao);
+    $this->doc_samba[$dao[0]]=false;
+    $this->doc_samba=array_values(array_filter($this->doc_samba));
+    //print_r($this->doc_samba);
+    $this->gera_arquivo();
+  }
+
+  public function edita_samba($dir){
+    $this->abre_doc();
+    //print_r($this->doc_samba);
+    $dao=$this->procura_samba($dir);
+
+    $v=$this->novo_smb;
+    $tot=count($v);
+    //$tot_samba=count($this->doc_samba);
+    $this->doc_samba[ $dao[0] ]=[];//limpa valor
+    for($x=0;$x<$tot;$x++){
+      //contador
+      $this->doc_samba[ $dao[0] ][ $v[$x][0] ]=$v[$x][1];
+      //monta
+      if($v[$x][0]!='nome_smb'){
+        $this->doc_samba[ $dao[0] ]['val'][  ]=[ $v[$x][0],$v[$x][1] ];
+      }
+
+    }//for
+
+    $this->gera_arquivo();
+  }
+
+
 
 
 

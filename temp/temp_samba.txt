@@ -1,0 +1,12 @@
+
+[backup_linux]
+comment = “Diretorio Privado (site)”
+path = /media/HD_01/teste_backup
+public = no
+only guest = no
+valid users = @adm
+writable = yes
+printable = no
+browseable = no
+valid users = @adm
+SECURITY = @adm

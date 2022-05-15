@@ -14,6 +14,28 @@ class unidade{
 
   public $local="/opt/lampp/htdocs/montahd";
 
+  public function monta_script(){
+    $script_samba=
+    "#!/bin/bash".
+    "\nsudo cat ".$this->local."/temp/temp_samba.txt > /teste.txt;".
+    "\n#sudo cat ".$this->local."/temp/temp_samba.txt > /etc/samba/smb.conf;".
+    "\n#sudo systemctl restart smbd;";
+
+    $fp = fopen("script/script_samba.sh","w");
+    fwrite($fp,$script_samba);
+    fclose($fp);
+
+    $script_unidade=
+    "#!/bin/bash".
+    "\nsudo cat ".$this->local."/temp/temp_unidade.txt > /teste.txt;".
+    "\n#sudo cat ".$this->local."/temp/temp_unidade.txt > /etc/fstab;".
+    "\n#sudo mount -a;";
+
+    $fp = fopen("script/script_unidade.sh","w");
+    fwrite($fp,$script_unidade);
+    fclose($fp);
+  }
+
   public function reagrupa($uni,$nome=false){
     //echo "linha";
     $r=[];
@@ -190,11 +212,11 @@ class unidade{
     //echo $com="sudo echo 'teste_funi' > /opt/teste.txt";
     //echo shell_exec("sudo echo 'teste do shell' > /teste.txt");
     //shell_exec('sudo echo  "'.$arquivo.'" > /etc/fstab&&sudo mount -a');
-    $fp = fopen("temp.txt","w");
+    $fp = fopen("temp/temp_unidade.txt","w");
     fwrite($fp,$arquivo);
     fclose($fp);
 
-    shell_exec('cd '.$this->local.'/script&&sudo bash ./script.sh');
+    shell_exec('cd '.$this->local.'/script&&sudo bash ./script_unidade.sh');
     //shell_exec('sudo cat /opt/lampp/htdocs/montahd/temp.txt > /teste.txt');
 
   }//metodo

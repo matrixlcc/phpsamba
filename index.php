@@ -134,10 +134,14 @@
         //$u->novo_diretorio('/media/hd_montado','administrator','administrator');
         //$u->remove_diretorio('/media/pasta_mkdir');
         //$u->edita_diretorio('/media/pasta_teste_new','/media/pasta_teste');
-        $u->abre_doc();
+        //$u->abre_doc();
         //print_r( $u->procura_samba('/media/HD_01/php_server') );
-        $u->adiciona_samba();
-        print_r( $u->doc_samba );
+        //$u->adiciona_samba();
+        //$u->gera_arquivo();
+        //$u->remove_samba('/media/HD_01/php_server');
+        //$u->edita_samba('/media/HD_01/php_server');
+        //print_r( $u->doc_samba );
+        //$u->monta_script();
 
         ?>
       </div><!--unidades-->
