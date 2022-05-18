@@ -18,6 +18,19 @@ class samba extends diretorio{
     ['SECURITY',false]
   ];
 
+  public function separador_str($nome){
+    $nome2=str_replace(',','',$nome);
+    if($nome2!=$nome){
+      //$v= shell_exec("sudo id -nG ".$nome);
+      @$v=explode(',',$nome);
+      //print_r($r);
+      return $v;
+    }else{
+      return $nome;
+    }
+
+  }//function
+
   public function verificador($txt,$v=['[',']'] ){
     @$com=str_replace($v,['',''],$txt);
     if($com!=$txt){
@@ -74,7 +87,7 @@ class samba extends diretorio{
         $v1=$this->trata_conteudo($con[1]);
 
         //echo $v0.'='.$v1;
-
+        $v1=$this->separador_str($v1);
         $this->doc_samba[$cont_pasta]['val'][]=[ $v0, $v1 ];
         $this->doc_samba[$cont_pasta][$v0]=$v1;
 
@@ -186,7 +199,8 @@ class samba extends diretorio{
     }//for
 
     $this->gera_arquivo();
-  }
+
+  }//metodo
 
 
 

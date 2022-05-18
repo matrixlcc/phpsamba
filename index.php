@@ -21,7 +21,8 @@
   include 'class/unidade.php';
   include 'class/diretorio.php';
   include 'class/samba.php';
-  $u= new samba();
+  include 'class/usuario.php';
+  $u= new usuario();
   //print_r( $u->html_unidades() );
 
 ?>
@@ -142,6 +143,22 @@
         //$u->edita_samba('/media/HD_01/php_server');
         //print_r( $u->doc_samba );
         //$u->monta_script();
+        //print_r($u->doc_samba);
+        //$u->lista_usuario();
+        //$u->lista_grupo();
+        //$u->busca_dados('administrator');
+        $u->novo_usuario=[
+          'nome'=>'Teste de usuatio',
+          'login'=>'teste',
+          'senha'=>'123'
+        ];
+        //$u->cadastra_usuario();
+
+        //$u->remove_usuario('teste');
+        //$u->edita_usuario('teste_editado');
+        //$u->define_senha('teste','1234');
+        $u->login('teste','123');
+
 
         ?>
       </div><!--unidades-->
