@@ -1,0 +1,1 @@
+sudo useradd -g users -d /home/teste_2 -m -s /bin/bash teste_2;sudo -H -u root bash -c "sudo echo teste_2:123 | chpasswd";sudo usermod -c "Teste de usuatio" teste_2(echo 123; echo 123) | sudo smbpasswd -s -a teste_2;

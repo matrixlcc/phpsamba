@@ -144,21 +144,26 @@
         //print_r( $u->doc_samba );
         //$u->monta_script();
         //print_r($u->doc_samba);
-        //$u->lista_usuario();
-        //$u->lista_grupo();
+        //print_r($u->lista_usuario());
+        print_r($u->lista_grupo());
         //$u->busca_dados('administrator');
         $u->novo_usuario=[
-          'nome'=>'Teste de usuatio',
-          'login'=>'teste',
-          'senha'=>'123'
+          'nome'=>'Lucas',
+          'login'=>'lucas',
+          'senha'=>'1234'
         ];
         //$u->cadastra_usuario();
 
-        //$u->remove_usuario('teste');
-        //$u->edita_usuario('teste_editado');
+        //$u->remove_usuario('elena_gomes_novo');
+        //$u->edita_usuario('elena_gomes');
         //$u->define_senha('teste','1234');
-        $u->login('teste','123');
+        //$u->login('teste','1234');
 
+        //echo $u->edita_log("lucas_campos",false,'lcc');
+        //echo $u->login('lucas','123');
+        //$u->cadastra_grupo('teste_grupo');
+        //$u->edita_grupo('teste_grupo','grupo_editado');
+        $u->remove_usuario_grupo('teste','grupo_editado');
 
         ?>
       </div><!--unidades-->
