@@ -17,9 +17,9 @@ class unidade{
   public function monta_script(){
     $script_samba=
     "#!/bin/bash".
-    "\nsudo cat ".$this->local."/temp/temp_samba.txt > /teste.txt;".
-    "\n#sudo cat ".$this->local."/temp/temp_samba.txt > /etc/samba/smb.conf;".
-    "\n#sudo systemctl restart smbd;";
+    "\n#sudo cat ".$this->local."/temp/temp_samba.txt > /teste.txt;".
+    "\nsudo cat ".$this->local."/temp/temp_samba.txt > /etc/samba/smb.conf;".
+    "\nsudo systemctl restart smbd;";
 
     $fp = fopen("script/script_samba.sh","w");
     fwrite($fp,$script_samba);
@@ -27,9 +27,9 @@ class unidade{
 
     $script_unidade=
     "#!/bin/bash".
-    "\nsudo cat ".$this->local."/temp/temp_unidade.txt > /teste.txt;".
-    "\n#sudo cat ".$this->local."/temp/temp_unidade.txt > /etc/fstab;".
-    "\n#sudo mount -a;";
+    "\n#sudo cat ".$this->local."/temp/temp_unidade.txt > /teste.txt;".
+    "\nsudo cat ".$this->local."/temp/temp_unidade.txt > /etc/fstab;".
+    "\nsudo mount -a;";
 
     $fp = fopen("script/script_unidade.sh","w");
     fwrite($fp,$script_unidade);
@@ -111,52 +111,6 @@ class unidade{
     return @$n[0];
   }
 
-
-  public function html_unidades(){
-    $d=$this->lista_unidades();
-    //print_r($d);
-    $html='';
-    //preg_replace("/[^0-9]/", "",  $d[$x]['tamanho'])
-    for($x=0;$x<count($d);$x++){
-      if(
-        $d[$x]['nome'][0]=='s' &&
-        $d[$x]['nome'][1]=='d'
-      ){
-        $html=$html.
-        '<div class="unidade">'.
-        ' <div class="nome_unidade">'.
-        $d[$x]['nome'].' ( '.
-        $d[$x]['tamanho'].
-        ' )</div>';
-
-
-        $p=$d[$x]['part'];
-        $quan=count($p);
-        @$porcento=100/ $quan;
-
-        for($y=0;$y<$quan;$y++){
-
-            $html=$html.
-            '<div class="particao" style="width: '.$porcento.'%;">'.
-            '<div class="nome_particao"><div class="alinhamento">'.
-            $p[$y]['nome'].' ( '.
-            $this->trata_nome($p[$y]['dir']).' )<br/>'.
-            '<div class="barra_inteira"><div class="barra_uso" style="width: '.$this->uso_disco($p[$y]['nome']).';"></div></div>'.
-            $this->uso_disco($p[$y]['nome']).' de '.$p[$y]['tamanho'].'<br/>'.
-            '</div>'.
-            '</div>'.
-            '</div>';
-        }//for
-        $html=$html.
-        '<div class="rodape"></div>'.
-        '</div>';
-
-      }//if
-    }//for
-
-    return $html;
-
-  }
 
   public function uso_disco($n){
     $n='df -a /dev/'.$n;

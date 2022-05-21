@@ -228,13 +228,16 @@ class usuario extends samba{
     shell_exec('sudo groupmod -n '.$grupo_no.' '.$grupo_an);
   }//metodo
 
-  public function adicionando_usuario_grupo($usuario,$grupo){
+  public function adiciona_usuario_grupo($usuario,$grupo){
     shell_exec('sudo usermod -a -G '.$grupo.' '.$usuario);
   }//metodo
 
   public function remove_usuario_grupo($usuario,$grupo){
     shell_exec('sudo gpasswd -d '.$usuario.' '.$grupo);
-  }
+  }//metodo
+
+
+
 }
 
 
