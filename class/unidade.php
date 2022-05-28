@@ -17,9 +17,9 @@ class unidade{
   public function monta_script(){
     $script_samba=
     "#!/bin/bash".
-    "\n#sudo cat ".$this->local."/temp/temp_samba.txt > /teste.txt;".
-    "\nsudo cat ".$this->local."/temp/temp_samba.txt > /etc/samba/smb.conf;".
-    "\nsudo systemctl restart smbd;";
+    "\nsudo cat ".$this->local."/temp/temp_samba.txt > /teste.txt;".
+    "\n#sudo cat ".$this->local."/temp/temp_samba.txt > /etc/samba/smb.conf;".
+    "\n#sudo systemctl restart smbd;";
 
     $fp = fopen("script/script_samba.sh","w");
     fwrite($fp,$script_samba);
@@ -27,9 +27,9 @@ class unidade{
 
     $script_unidade=
     "#!/bin/bash".
-    "\n#sudo cat ".$this->local."/temp/temp_unidade.txt > /teste.txt;".
-    "\nsudo cat ".$this->local."/temp/temp_unidade.txt > /etc/fstab;".
-    "\nsudo mount -a;";
+    "\nsudo cat ".$this->local."/temp/temp_unidade.txt > /teste.txt;".
+    "\n#sudo cat ".$this->local."/temp/temp_unidade.txt > /etc/fstab;".
+    "\n#sudo mount -a;";
 
     $fp = fopen("script/script_unidade.sh","w");
     fwrite($fp,$script_unidade);
