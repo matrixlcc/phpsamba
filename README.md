@@ -1,8 +1,11 @@
+<h1>phpsamba</h1>
+<h2>Biblioteca php para manipulação de unidades de disco, diretórios, samba e usuários</h1>
 <h3>Requisitos:</h3>
 <ul>
   <li>Ubuntu server 20.04 lts ou posterior</li>
   <li>Pilha lampp junto com php7.5 e apache 2 ou posterior</li>
-  <li>Permissão do usuario executor do php</li>
+  <li>Permissão sudo para o usuario php</li>
+  <li>Pacote samba instalado</li>
 </ul>
 
 <h3>Como implementar no projeto:</h3>
