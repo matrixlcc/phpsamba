@@ -79,8 +79,20 @@ class unidade{
     $r=[];
     $num_pai=0;
     for($i=0;$i<count($d);$i++){
-      $sub=str_replace('└─','-',$d[$i]['nome']);
-      $sub=str_replace('├─','-',$sub);
+      $d=$this->lista_bash();
+    //print_r($d);
+    $r=[];
+    $num_pai=0;
+    for($i=0;$i<count($d);$i++){
+      $sub=$d[$i]['nome'];
+
+      $car_remo=[
+        '|-',
+        '`-',
+        '└─',
+        '├─'
+      ];
+      $sub=str_replace($car_remo,'-',$sub);
 
 
       if($sub[0]=='-'){
